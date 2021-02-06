@@ -62,19 +62,19 @@ ticketSchema.statics.build = (attrs: TicketAttrs) => {
   });
 };
 ticketSchema.methods.isReserved = async function () {
-  // this === the ticket document that we just called 'isReserved' on
-  const existingOrder = await Order.findOne({
-    ticket: this,
-    status: {
-      $in: [
-        OrderStatus.Created,
-        OrderStatus.AwaitingPayment,
-        OrderStatus.Complete,
-      ],
-    },
-  });
+//   // this === the ticket document that we just called 'isReserved' on
+//   const existingOrder = await Order.findOne({
+//     ticket: this,
+//     status: {
+//       $in: [
+//         OrderStatus.Created,
+//         OrderStatus.AwaitingPayment,
+//         OrderStatus.Complete,
+//       ],
+//     },
+//   });
 
-  return !!existingOrder;
+//   return !!existingOrder;
 };
 
 const Ticket = mongoose.model<TicketDoc, TicketModel>('Ticket', ticketSchema);
