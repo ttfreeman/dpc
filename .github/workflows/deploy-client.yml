@@ -1,26 +1,26 @@
-name: deploy-auth
+name: deploy-client
 
 on: 
   push:
     branches: 
       - master
     paths:
-      - 'auth/**'
+      - 'client/**'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd auth && docker build -t ttfreeman/auth . 
+      - run: cd client && docker build -t ttfreeman/client . 
       - run: 
           echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
         env:
           $DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           $DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      - run: docker push ttfreeman/auth
+      - run: docker push ttfreeman/client
       - uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEAN_TOKEN }}
       - run: doctl kubernetes cluster kubeconfig save dpc-cluster
-      - run: kubectl rollout restart deployment auth-depl
+      - run: kubectl rollout restart deployment client-depl
